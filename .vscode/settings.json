@@ -4,6 +4,12 @@
         "chrono": "cpp",
         "limits": "cpp",
         "iostream": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "deque": "cpp",
+        "queue": "cpp",
+        "vector": "cpp"
     }
 }
