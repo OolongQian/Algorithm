@@ -30,8 +30,8 @@ struct edgeT {
 
 
 vector<pathT> grph[maxn];
-//vector<pathT> rgrph[maxn];
-vector<edgeT> redges;
+vector<pathT> rgrph[maxn];
+//vector<edgeT> redges;
 int s, t, k;
 int n, m;
 int empirical_guess[maxn];  /// this is the shortest path from end node to current node.
@@ -49,7 +49,7 @@ struct qNodeT {
 	}
 	bool operator< (const qNodeT& other) const {
 //		return dist + guess < other.dist + other.guess;
-		return dist + empirical_guess[node] < other.dist + empirical_guess[other.node];
+		return dist + empirical_guess[node] > other.dist + empirical_guess[other.node];
 	}
 };
 ostream& operator<<(ostream &os, const qNodeT &elem) {
@@ -73,14 +73,14 @@ ostream& operator<<(ostream &os, const qNodeT &elem) {
 //
 //	for(int i = 2; i <= n; ++i) {
 //		int cur = -1, min_dist = 0x3f3f3f3f;
-//		/// find which node to visit this time.
+		/ find which node to visit this time.
 //		for(int j = 1; j <= n; ++j) {
 //			if(!vis[j] && empirical_guess[j] < min_dist) {
 //				min_dist = empirical_guess[j];
 //				cur = j;
 //			}
 //		}
-//		/// visit this node.
+		/ visit this node.
 //		assert(cur != -1);
 //		vis[cur] = true;
 //		for(auto path : rgrph[cur]) {
@@ -92,6 +92,7 @@ ostream& operator<<(ostream &os, const qNodeT &elem) {
 //		}
 //	}
 //}
+
 void BellmanFord(int cur) {
 	for (int i = 1; i <= n; ++i)
 		empirical_guess[i] = 0x3f3f3f3f;
@@ -100,7 +101,7 @@ void BellmanFord(int cur) {
 	for (int i = 2; i <= n; ++i) {
 		bool finish = true;
 
-		// for (auto edge : redges) {
+		 for (auto edge : redges) {
 		for(int j = 0; j < redges.size(); ++j) {
 			edgeT edge = redges[j];
 			if (empirical_guess[edge.v] > empirical_guess[edge.u] + edge.wgt) {
@@ -120,7 +121,7 @@ int kShortestPath() {
 	priority_queue<qNodeT> pq;
 
 //	pq.push(qNodeT(s, 0, empirical_guess[s]));
-		pq.push(qNodeT(s, 0));
+	pq.push(qNodeT(s, 0));
 //	pq.emplace(s, 0, empirical_guess[s]);
 	while(!pq.empty()) {
 		qNodeT tmp = pq.top();
@@ -159,8 +160,8 @@ int main() {
 		int u, v, wgt;
 		cin >> u >> v >> wgt;
 		grph[u].push_back(pathT(v, wgt));
-//		rgrph[v].push_back(pathT(u, wgt));
-		redges.push_back(edgeT(v, u, wgt));
+		rgrph[v].push_back(pathT(u, wgt));
+//		redges.push_back(edgeT(v, u, wgt));
 //		grph[u].emplace_back(v, wgt);
 //		rgrph[v].emplace_back(u, wgt);
 //		redges.emplace_back(v, u, wgt);
